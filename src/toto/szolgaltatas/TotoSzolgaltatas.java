@@ -4,6 +4,7 @@ import toto.tarolo.Fordulo;
 import toto.tarolo.Talalat;
 import toto.tarolo.Eredmeny;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.LinkedList;
 import java.io.BufferedReader;
@@ -30,7 +31,7 @@ public class TotoSzolgaltatas
                 f.setEv(Integer.parseInt(st[0]));
                 f.setHet(Integer.parseInt(st[1]));
                 f.setForduloAHeten(setFordulokAHeten(st[2]));
-                f.setDatum(LocalDate.parse(DatumJavitas(st[3])));
+                f.setDatum(setDatum(st[3],f.getEv(),f.getHet(),f.getForduloAHeten()));
                 List<Talalat> talalatokLista = new LinkedList<Talalat>();
                 List<Eredmeny> eredmenyekLista = new LinkedList<Eredmeny>();
                 f.setTalalatok(TalalatokFeldolgozasa(st,talalatokLista));
@@ -49,6 +50,7 @@ public class TotoSzolgaltatas
         }
 
     }
+
     public int setFordulokAHeten( String s )
     {
         int i = 0;
@@ -63,13 +65,22 @@ public class TotoSzolgaltatas
         return i;
     }
 
-    public String DatumJavitas(String s)
+    private LocalDate setDatum(String s,int ev, int het, int forduloHet)
     {
-        s.replaceFirst(".","-");
-        s.replaceFirst(".","-");
-        s.replaceFirst(".","");
-        return s;
+        DateTimeFormatter formatum = DateTimeFormatter.ofPattern("yyyy.MM.d.");
+        LocalDate d;
+        if (s.equals(""))
+        {
+            d = LocalDate.of(ev, 1, 1).plusWeeks(het-1).plusDays(forduloHet);
+        }
+        else
+        {
+            d = LocalDate.parse(s, formatum);
+        }
+
+        return d;
     }
+
 
     public List<Talalat> TalalatokFeldolgozasa(String[] st,List<Talalat> t)
     {
@@ -93,7 +104,7 @@ public class TotoSzolgaltatas
     {
         int i = 14;
 
-        while (i < 29)
+        while (i < 28)
         {
             if (st[i].equals("1")||st[i].equals("+1"))
             {
@@ -107,8 +118,17 @@ public class TotoSzolgaltatas
             {
                 e.add(Eredmeny.X);
             }
-
+            i++;
         }
         return e;
     }
+
+    public void Ellenorzes()
+    {
+        for(Fordulo f : fordulok)
+        {
+            System.out.println(f);
+        }
+    }
+
 }

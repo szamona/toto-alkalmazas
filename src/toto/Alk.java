@@ -7,6 +7,7 @@ public class Alk
     {
         TotoSzolgaltatas s = new TotoSzolgaltatas();
         s.Bekeres("toto.csv");
+        s.Ellenorzes();
     }
 
 }

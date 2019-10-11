@@ -76,4 +76,16 @@ public class Fordulo
     {
         this.eredmenyek = eredmenyek;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "ev: " + this.ev +
+                ", het: " + this.het +
+                ", forduloAHeten: " + this.forduloAHeten +
+                ", datum: " + this.datum +
+                ", talalatok: " + this.talalatok +
+                ", eredmenyek: " + this.eredmenyek
+                );
+    }
 }

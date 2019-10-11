@@ -24,4 +24,13 @@ public class Talalat
     public int getNyeremeny() {
         return nyeremeny;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "talalatokSzama: " + this.talalatokSzama +
+                ", nyertTalalatokSzama: " + this.nyertTalalatokSzama +
+                ", nyeremeny: " + this.nyeremeny
+                );
+    }
 }
