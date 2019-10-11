@@ -7,7 +7,8 @@ public class Alk
     {
         TotoSzolgaltatas s = new TotoSzolgaltatas();
         s.Bekeres("toto.csv");
-        s.Ellenorzes();
+        //s.Ellenorzes();
+        System.out.print("A legnagyobb nyeremeny amit rogzitettek: "+s.LegnagyobbNyeremeny());
     }
 
 }

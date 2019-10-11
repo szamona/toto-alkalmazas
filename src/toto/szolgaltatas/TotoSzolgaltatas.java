@@ -131,4 +131,24 @@ public class TotoSzolgaltatas
         }
     }
 
+    public int LegnagyobbNyeremeny()
+    {
+        List<Talalat> t;
+        int max = 0;
+
+        for ( int i = 0; i < fordulok.size(); i++)
+        {
+            t = fordulok.get(i).getTalalatok();
+
+            for (int j = 0; j < t.size(); j++)
+            {
+                if(t.get(j).getNyeremeny()>max)
+                {
+                    max = t.get(j).getNyeremeny();
+                }
+            }
+        }
+        return max;
+    }
+
 }
