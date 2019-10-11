@@ -1,12 +1,12 @@
 package toto.szolgaltatas;
 
 import toto.tarolo.Fordulo;
+import toto.tarolo.Talalat;
+import toto.tarolo.Eredmeny;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.LinkedList;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -29,10 +29,14 @@ public class TotoSzolgaltatas
                 String[] st = sor.split(";");
                 f.setEv(Integer.parseInt(st[0]));
                 f.setHet(Integer.parseInt(st[1]));
-                f.setForduloAHeten(Integer.parseInt(st[2]));
+                f.setForduloAHeten(setFordulokAHeten(st[2]));
                 f.setDatum(LocalDate.parse(DatumJavitas(st[3])));
-
-
+                List<Talalat> talalatokLista = new LinkedList<Talalat>();
+                List<Eredmeny> eredmenyekLista = new LinkedList<Eredmeny>();
+                f.setTalalatok(TalalatokFeldolgozasa(st,talalatokLista));
+                f.setEredmenyek(EredmenyekFeldolgozasa(st,eredmenyekLista));
+                this.fordulok.add(f);
+                sor = b.readLine();
             }
 
             b.close();
@@ -45,6 +49,19 @@ public class TotoSzolgaltatas
         }
 
     }
+    public int setFordulokAHeten( String s )
+    {
+        int i = 0;
+        if ( s.equals("") )
+        {
+            i = 1;
+        }
+        else
+        {
+            i = Integer.parseInt(s);
+        }
+        return i;
+    }
 
     public String DatumJavitas(String s)
     {
@@ -54,4 +71,44 @@ public class TotoSzolgaltatas
         return s;
     }
 
+    public List<Talalat> TalalatokFeldolgozasa(String[] st,List<Talalat> t)
+    {
+        int i = 4;
+        int talalatokSzama=14;
+
+        while (i < 14)
+        {
+            int nyertTalalatok= Integer.parseInt(st[i]);
+            String penz = st[i + 1].replace(" Ft", "");
+            penz = penz.replaceAll(" ", "");
+            int nyeremeny = Integer.parseInt(penz);
+            t.add(new Talalat(talalatokSzama, nyertTalalatok, nyeremeny));
+            talalatokSzama--;
+            i += 2;
+        }
+        return t;
+    }
+
+    public List<Eredmeny> EredmenyekFeldolgozasa(String[] st, List<Eredmeny> e)
+    {
+        int i = 14;
+
+        while (i < 29)
+        {
+            if (st[i].equals("1")||st[i].equals("+1"))
+            {
+                e.add(Eredmeny._1);
+            }
+            else if(st[i].equals("2")||st[i].equals("+2"))
+            {
+                e.add(Eredmeny._2);
+            }
+            else
+            {
+                e.add(Eredmeny.X);
+            }
+
+        }
+        return e;
+    }
 }

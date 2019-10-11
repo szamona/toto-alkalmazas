@@ -37,16 +37,15 @@ public class Fordulo
         return datum;
     }
 
-    public Talalat getTalalatok(int i)
+    public List<Talalat> getTalalatok()
     {
-        return talalatok.get(i);
+        return talalatok;
     }
 
-    public Eredmeny getEredmenyek(int i)
+    public List<Eredmeny> getEredmenyek()
     {
-        return eredmenyek.get(i);
+        return eredmenyek;
     }
-
 
     public void setEv(int ev)
     {
@@ -68,13 +67,13 @@ public class Fordulo
         this.datum = datum;
     }
 
-    public void setTalalatok(Talalat t)
+    public void setTalalatok(List<Talalat> talalatok)
     {
-        this.talalatok.add(t);
+        this.talalatok = talalatok;
     }
 
-    public void setEredmenyek(Eredmeny e)
+    public void setEredmenyek(List<Eredmeny> eredmenyek)
     {
-        this.eredmenyek.add(e);
+        this.eredmenyek = eredmenyek;
     }
 }
