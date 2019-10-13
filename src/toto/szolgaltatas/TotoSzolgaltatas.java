@@ -151,4 +151,106 @@ public class TotoSzolgaltatas
         return max;
     }
 
+    public void Statisztika() {
+        List<Eredmeny> e;
+        double osszDB = 0;
+        double hazaiDB = 0;
+        double dontetlenDB = 0;
+        double vendegDB = 0;
+
+
+        for (int i = 0; i < fordulok.size(); i++)
+        {
+           e = fordulok.get(i).getEredmenyek();
+
+            for (int j = 0; j < e.size(); j++)
+            {
+               if (e.get(j).equals(Eredmeny._1))
+               {
+                   hazaiDB++;
+               }
+               else if (e.get(j).equals(Eredmeny._2))
+               {
+                   vendegDB++;
+               }
+               else
+               {
+                   dontetlenDB++;
+               }
+                osszDB++;
+            }
+        }
+        double hazaiSz = (hazaiDB / osszDB) * 100;
+        double vendegSz = ( vendegDB / osszDB) * 100;
+        double dontetlenSz = (dontetlenDB / osszDB) * 100;
+
+        System.out.printf("Statisztika: #1 csapat nyert: %.2f %%, #2 csapat nyert: %.2f %%, dontetlen: %.2f %%\n", hazaiSz, vendegSz, dontetlenSz);
+    }
+
+    public void getTipp(String s, String[] t)
+    {
+        DateTimeFormatter formatum = DateTimeFormatter.ofPattern("yyyy.MM.d.");
+        LocalDate d = LocalDate.parse(s, formatum);
+
+        int db = 0;
+        int nyeremeny = 0;
+
+        List<Eredmeny> tipp = new LinkedList<Eredmeny>();
+        getEredmenyek(t,tipp);
+
+        for (int i = 0; i < fordulok.size(); i++)
+        {
+            if (fordulok.get(i).getDatum().equals(d))
+            {
+                for (int j = 0; j < fordulok.get(i).getEredmenyek().size(); j++)
+                {
+                    if (fordulok.get(i).getEredmenyek().get(j) == tipp.get(j))
+                    {
+                        db++;
+                    }
+                }
+                for(int k = 0; k < fordulok.get(i).getTalalatok().size(); k++)
+                {
+                    if (fordulok.get(i).getTalalatok().get(k).getTalalatokSzama() == db)
+                    {
+                        nyeremeny = fordulok.get(i).getTalalatok().get(k).getNyeremeny();
+                    }
+                }
+            }
+        }
+        System.out.printf("Eredmeny: talalat: %d, nyeremeny: %,8d Ft", db, nyeremeny);
+    }
+
+    public String[] Tombosit(String s)
+    {
+        String[]  tomb = new String[14];
+        for (int i = 0; i < s.toCharArray().length; i++)
+        {
+            tomb[i] = String.valueOf(s.toCharArray()[i]);
+        }
+        return  tomb;
+    }
+
+    public List<Eredmeny> getEredmenyek(String[] st, List<Eredmeny> e)
+    {
+        int i = 0;
+
+        while (i < 14)
+        {
+            if (st[i].equals("1")||st[i].equals("+1"))
+            {
+                e.add(Eredmeny._1);
+            }
+            else if(st[i].equals("2")||st[i].equals("+2"))
+            {
+                e.add(Eredmeny._2);
+            }
+            else
+            {
+                e.add(Eredmeny.X);
+            }
+            i++;
+        }
+        return e;
+    }
 }
